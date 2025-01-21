@@ -119,10 +119,15 @@ jobs:
         cd openwrt/package 
         git clone https://github.com/messense/aliyundrive-webdav.git
        
-    - name: luci-app-frpc
+    - name: luci-app-frpc_frps
       run: |
-        cd openwrt/package 
-        git clone https://github.com/kuoruan/luci-app-frpc.git
+        cd openwrt
+        rm -rf feeds/packages/net/frp
+        git clone https://github.com/user1121114685/frp.git feeds/packages/net/frp
+        git clone https://github.com/superzjg/luci-app-frpc_frps.git frpc_frps
+        rm frpc_frps/*.ipk
+        mkdir -p feeds/luci/applications
+        mv frpc_frps/* feeds/luci/applications/
         
     - name: Load custom feeds
       run: |
