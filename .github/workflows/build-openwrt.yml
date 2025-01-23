@@ -107,6 +107,7 @@ jobs:
       run: |
         cd openwrt/package    
         git clone -b dev https://github.com/Blueplanet20120/luci-app-romupdate.git
+        sed -i 's|/Lenyu2020/|/user1121114685/|g' luci-app-romupdate/root/usr/share/Lenyu-version.sh
     
     #- name: luci-theme-argon
       #run: |
@@ -118,6 +119,15 @@ jobs:
       run: |
         cd openwrt/package 
         git clone https://github.com/messense/aliyundrive-webdav.git
+
+    - name: luci-app-frpc_frps
+      run: |
+        cd openwrt
+        git clone https://github.com/user1121114685/frp.git package/frp 
+        git clone https://github.com/superzjg/luci-app-frpc_frps.git frpc_frps
+        rm frpc_frps/*.ipk
+        mv frpc_frps/* package/
+
 
     - name: Load custom feeds
       run: |
@@ -135,16 +145,6 @@ jobs:
 
     - name: Update feeds
       run: cd openwrt && ./scripts/feeds update -a
-
-    - name: luci-app-frpc_frps
-      run: |
-        cd openwrt
-        rm -rf feeds/packages/net/frp
-        git clone https://github.com/user1121114685/frp.git feeds/packages/net/frp
-        git clone https://github.com/superzjg/luci-app-frpc_frps.git frpc_frps
-        rm frpc_frps/*.ipk
-        rm -rf feeds/luci/applications/luci-app-frp*
-        mv frpc_frps/* feeds/luci/applications/
 
     - name: Install feeds
       run: cd openwrt && ./scripts/feeds install -a
